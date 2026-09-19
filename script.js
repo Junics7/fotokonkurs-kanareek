@@ -2,13 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.4';
 const SUPABASE_URL='https://gqwhafobiikhhusryqsz.supabase.co';
 const SUPABASE_KEY=['sb_publishable_','GH4ld1I2zmd9fM2MpjfjKg','_z_OB94Uj'].join('');
 const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
-const CANARY_PHOTOS=[
-{id:'demo-1',name:'Солнечный Ричи',author:'Елена М.',category:'Портрет',votes:12,image:'https://images.unsplash.com/photo-1540554341341-f9134ca0df1a?auto=format&fit=crop&w=900&q=85'},
-{id:'demo-2',name:'Жёлтая красавица',author:'Игорь П.',category:'Яркий окрас',votes:9,image:'https://images.unsplash.com/photo-1654181920354-5c4add3989a1?auto=format&fit=crop&w=900&q=85'},
-{id:'demo-3',name:'Утро в клетке',author:'Марина К.',category:'Домашний любимец',votes:7,image:'https://images.unsplash.com/photo-1708204931288-e424bde77d8f?auto=format&fit=crop&w=900&q=85'},
-{id:'demo-4',name:'Золотой портрет',author:'Сергей В.',category:'Портрет',votes:5,image:'https://images.unsplash.com/photo-1540554341341-f9134ca0df1a?auto=format&fit=crop&w=900&q=85'},
-{id:'demo-5',name:'Яркое перо',author:'Наталья Р.',category:'Яркий окрас',votes:4,image:'https://images.unsplash.com/photo-1654181920354-5c4add3989a1?auto=format&fit=crop&w=900&q=85'},
-{id:'demo-6',name:'Любимая канарейка',author:'Алексей Т.',category:'Домашний любимец',votes:3,image:'https://images.unsplash.com/photo-1708204931288-e424bde77d8f?auto=format&fit=crop&w=900&q=85'}];
+const CANARY_PHOTOS=[];
 let participants=[],currentFilter='all';
 const galleryGrid=document.querySelector('#galleryGrid'),leaderboard=document.querySelector('#leaderboard'),note=document.querySelector('#formNote');
 const publicPhotoUrl=p=>supabase.storage.from('contest-photos').getPublicUrl(p).data.publicUrl;
