@@ -39,7 +39,7 @@ async function fileToDataUrl(file){return await new Promise((resolve,reject)=>{c
 async function saveSponsor(){
  const name=$('#sponsorName').value.trim(),website_url=$('#sponsorUrl').value.trim(),description=$('#sponsorDescription').value.trim(),sort_order=Number($('#sponsorSort').value||0),photo=$('#sponsorPhoto').files[0],id=$('#sponsorId').value||null,existing=$('#sponsorExistingPhoto').value||null;
  if(!name||name.length<2){$('#sponsorNote').textContent='Укажите название спонсора.';return}
- if(!/^https?:\\/\\//i.test(website_url)){$('#sponsorNote').textContent='Ссылка должна начинаться с http:// или https://.';return}
+ if(!/^https?:\/\//i.test(website_url)){$('#sponsorNote').textContent='Ссылка должна начинаться с http:// или https://.';return}
  if(photo&&(photo.size>5*1024*1024||!['image/jpeg','image/png','image/webp'].includes(photo.type))){$('#sponsorNote').textContent='Фото: JPG, PNG или WEBP, не более 5 МБ.';return}
  $('#sponsorNote').textContent='Сохраняем…';const body={action:'admin_sponsor_save',password:pass,id,sponsor_name:name,website_url,description:description||null,sort_order,is_active:$('#sponsorActive').checked,existing_photo_path:existing,old_photo_path:existing};
  if(photo){body.photo_base64=await fileToDataUrl(photo);body.photo_mime=photo.type}
