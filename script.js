@@ -35,6 +35,8 @@ renderGallery();renderLeaderboard();loadParticipants();
 async function loadSponsors(){
   const section=document.querySelector('#sponsors'),grid=document.querySelector('#sponsorsGrid');
   if(!section||!grid)return;
+  const {data:settings,error:settingsError}=await supabase.from('contest_settings').select('sponsors_enabled').eq('id',true).maybeSingle();
+  if(settingsError||!settings?.sponsors_enabled){section.style.display='none';return}
   const {data,error}=await supabase.from('sponsors').select('id,sponsor_name,description,website_url,photo_path,is_active,sort_order').eq('is_active',true).order('sort_order',{ascending:true}).order('created_at',{ascending:true});
   if(error){console.error(error);section.style.display='none';return}
   if(!data?.length){section.style.display='none';return}
@@ -42,5 +44,6 @@ async function loadSponsors(){
   section.style.display='block';
 }
 async function loadWinners(){try{const{data,error}=await supabase.functions.invoke('judge-api',{body:{action:'winners'}});if(error||!data?.enabled){document.querySelector('#winners').style.display='none';document.querySelector('#winnersNav').style.display='none';return}document.querySelector('#winners').style.display='block';document.querySelector('#winnersNav').style.display='inline-flex';const g=document.querySelector('#winnersGrid');g.innerHTML=(data.items||[]).map((p,i)=>'<article class="winner-card"><div class="winner-place">Место '+(i+1)+'</div><img src="'+publicPhotoUrl(p.photo_path)+'" alt="'+escapeHtml(p.bird_name||'')+'"><div class="winner-body"><h3>'+escapeHtml(p.bird_name||'Без имени')+'</h3><p>'+escapeHtml(p.participant_name||'Участник')+' · '+escapeHtml(p.category||'')+'</p><strong>'+p.judge_average+'/10</strong><span>'+p.total_scores+' оценок жюри · '+p.vote_count+' голосов зрителей</span></div></article>').join('')||'<div class="empty">Итоги жюри пока не опубликованы.</div>'}catch(e){console.error(e)}}
+window.refreshSponsorsSection=loadSponsors;
 loadWinners();
 loadSponsors();
